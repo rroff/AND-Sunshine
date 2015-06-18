@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
  */
 public class ForecastFragment extends Fragment {
 
+    private final String LOG_TAG = ForecastFragment.class.getSimpleName();
+
     private ArrayAdapter<String> mForecastAdapter;
 
     public ForecastFragment() {
@@ -58,14 +61,11 @@ public class ForecastFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
 
-        ArrayList<String> forecastStrings = new ArrayList<String>();
-        forecastStrings.add("No data - Click Refresh to Load");
-
         mForecastAdapter = new ArrayAdapter<String>(
                                     getActivity(),
                                     R.layout.list_item_forecast,
                                     R.id.list_item_forecast_textview,
-                                    forecastStrings);
+                                    new ArrayList<String>());
 
         final ListView listView = (ListView)rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
@@ -90,12 +90,24 @@ public class ForecastFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            new FetchWeatherTask().execute("32905");
-
+            updateWeather();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather() {
+        String location = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString(getString(R.string.pref_location_key),
+                        getString(R.string.pref_location_default));
+        new FetchWeatherTask().execute(location);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
