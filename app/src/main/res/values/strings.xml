@@ -17,4 +17,25 @@
     <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
     <string name="pref_location_default" translatable="false">32905</string>
 
+    <!-- Label for the units preference [CHAR LIMIT=30] -->
+    <string name="pref_units_label">Display Units</string>
+
+    <!-- Key name for storing units in SharedPreferences [CHAR LIMIT=NONE] -->
+    <string name="pref_units_key" translatable="false">units</string>
+
+    <!-- Metric option for units preference -->
+    <string name="pref_units_metric" translatable="false">Metric</string>
+
+    <!-- Imperial option for units preference -->
+    <string name="pref_units_imperial" translatable="false">Imperial</string>
+
+    <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
+    <string name="pref_units_default" translatable="false">@string/pref_units_metric</string>
+
+    <!-- Array of options for units preference -->
+    <string-array name="pref_units_entries">
+        <item>@string/pref_units_metric</item>
+        <item>@string/pref_units_imperial</item>
+    </string-array>
+
 </resources>
