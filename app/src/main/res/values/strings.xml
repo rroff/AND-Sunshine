@@ -3,6 +3,7 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="action_refresh">Refresh</string>
+    <string name="action_mapview">Map Location</string>
     <string name="action_settings">Settings</string>
 
     <string name="title_activity_detail">Forecast Details</string>
@@ -18,7 +19,7 @@
     <string name="pref_location_default" translatable="false">32905</string>
 
     <!-- Label for the units preference [CHAR LIMIT=30] -->
-    <string name="pref_units_label">Display Units</string>
+    <string name="pref_units_label">Temperature Units</string>
 
     <!-- Key name for storing units in SharedPreferences [CHAR LIMIT=NONE] -->
     <string name="pref_units_key" translatable="false">units</string>

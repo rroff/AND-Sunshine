@@ -1,13 +1,18 @@
 package com.dintresearch.rroff.sunshine;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +39,32 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        } else if (id == R.id.action_mapview) {
+            openPreferredLocationInMap();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openPreferredLocationInMap() {
+        String location = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(getString(R.string.pref_location_key),
+                           getString(R.string.pref_location_default));
+
+        final String MAP_BASE_URL = "geo:0,0";
+        final String QUERY_PARAM = "q";
+
+        Uri geolocation = Uri.parse(MAP_BASE_URL).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, location)
+                .build();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geolocation);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Log.w(LOG_TAG, "Unable to open geolocation intent");
+        }
     }
 }
