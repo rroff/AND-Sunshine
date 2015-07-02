@@ -1,4 +1,4 @@
-package com.dintresearch.rroff.sunshine;
+package us.roff.rroff.sunshine;
 
 /**
  * Created by rroff on 6/10/2015.

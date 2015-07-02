@@ -1,4 +1,4 @@
-package com.dintresearch.rroff.sunshine;
+package us.roff.rroff.sunshine;
 
 import android.os.Bundle;
 import android.preference.ListPreference;

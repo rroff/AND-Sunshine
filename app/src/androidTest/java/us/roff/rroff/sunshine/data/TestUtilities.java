@@ -1,4 +1,4 @@
-package com.dintresearch.rroff.sunshine.data;
+package us.roff.rroff.sunshine.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
-import com.dintresearch.rroff.sunshine.utils.PollingCheck;
+import us.roff.rroff.sunshine.utils.PollingCheck;
 
 import java.util.Map;
 import java.util.Set;

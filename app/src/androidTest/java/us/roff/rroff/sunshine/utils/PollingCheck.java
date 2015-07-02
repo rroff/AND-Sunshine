@@ -15,7 +15,7 @@
  *
  * Note: This file copied from the Android CTS Tests
  */
-package com.dintresearch.rroff.sunshine.utils;
+package us.roff.rroff.sunshine.utils;
 
 import junit.framework.Assert;
 

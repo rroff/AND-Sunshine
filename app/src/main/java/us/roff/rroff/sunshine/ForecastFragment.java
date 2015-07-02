@@ -1,4 +1,4 @@
-package com.dintresearch.rroff.sunshine;
+package us.roff.rroff.sunshine;
 
 import android.content.Intent;
 import android.net.Uri;

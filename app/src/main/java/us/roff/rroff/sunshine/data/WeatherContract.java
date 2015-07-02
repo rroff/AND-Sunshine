@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dintresearch.rroff.sunshine.data;
+package us.roff.rroff.sunshine.data;
 
 import android.provider.BaseColumns;
 import android.text.format.Time;

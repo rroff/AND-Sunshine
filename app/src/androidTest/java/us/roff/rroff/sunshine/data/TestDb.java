@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dintresearch.rroff.sunshine.data;
+package us.roff.rroff.sunshine.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -28,7 +28,7 @@ public class TestDb extends AndroidTestCase {
 
     // Since we want each test to start with a clean slate
     void deleteTheDatabase() {
-        mContext.deleteDatabase(com.dintresearch.rroff.sunshine.data.WeatherDbHelper.DATABASE_NAME);
+        mContext.deleteDatabase(us.roff.rroff.sunshine.data.WeatherDbHelper.DATABASE_NAME);
     }
 
     /*

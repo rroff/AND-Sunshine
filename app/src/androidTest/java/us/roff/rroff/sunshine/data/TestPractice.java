@@ -1,4 +1,4 @@
-package com.dintresearch.rroff.sunshine.data;
+package us.roff.rroff.sunshine.data;
 
 import android.test.AndroidTestCase;
 
