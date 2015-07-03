@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.dintresearch.rroff.sunshine"
+        applicationId "us.roff.rroff.sunshine"
         minSdkVersion 11
         targetSdkVersion 22
         versionCode 1
