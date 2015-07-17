@@ -30,7 +30,7 @@ public class DetailActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DetailActivityFragment())
+                    .add(R.id.detail_container, new DetailActivityFragment())
                     .commit();
         }
     }
