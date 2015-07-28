@@ -42,7 +42,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
             WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
             WeatherContract.WeatherEntry.COLUMN_DEGREES,
-            WeatherContract.WeatherEntry.COLUMN_PRESSURE
+            WeatherContract.WeatherEntry.COLUMN_PRESSURE,
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID
     };
 
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
@@ -56,6 +57,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     static final int COL_WEATHER_WIND_SPEED = 6;
     static final int COL_WEATHER_DEGREES = 7;
     static final int COL_WEATHER_PRESSURE = 8;
+    static final int COL_WEATHER_CONDITION_ID = 9;
 
     private ShareActionProvider mShareActionProvider;
 
@@ -138,7 +140,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         ViewHolder viewHolder = (ViewHolder)getView().getTag();
 
         // Placeholder image
-        viewHolder.iconView.setImageResource(R.drawable.imgtemp);
+        viewHolder.iconView.setImageResource(
+                Utility.getArtResourceForWeatherCondition(
+                        data.getInt(DetailFragment.COL_WEATHER_CONDITION_ID)));
 
         // Date/Day
         long dateInMillis = data.getLong(DetailFragment.COL_WEATHER_DATE);
