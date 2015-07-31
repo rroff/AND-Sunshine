@@ -1,7 +1,6 @@
 package us.roff.rroff.sunshine;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +26,8 @@ import us.roff.rroff.sunshine.data.WeatherContract;
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
+
+    private static final String SELECTED_POSITION_KEY = "SelectedPosition";
 
     private static final int FORECAST_LOADER_ID = 1;
 
@@ -60,7 +61,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     static final int COL_COORD_LAT = 7;
     static final int COL_COORD_LONG = 8;
 
+    private ListView mForecastView;
+
     private ForecastAdapter mForecastAdapter;
+
+    private int mSelectedPosition;
 
     public ForecastFragment() {
     }
@@ -88,13 +93,19 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         final View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
 
+        if ((savedInstanceState != null) && (savedInstanceState.containsKey(SELECTED_POSITION_KEY))) {
+            mSelectedPosition = savedInstanceState.getInt(SELECTED_POSITION_KEY);
+        }
+
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
-        final ListView listView = (ListView)rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(mForecastAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mForecastView = (ListView)rootView.findViewById(R.id.listview_forecast);
+        mForecastView.setAdapter(mForecastAdapter);
+        mForecastView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long l) {
+                mSelectedPosition = position;
+
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
@@ -105,7 +116,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
                     Activity activity = getActivity();
                     if (activity instanceof Callback) {
-                        ((Callback)activity).onItemSelected(uri);
+                        ((Callback) activity).onItemSelected(uri);
                     }
                 }
             }
@@ -128,6 +139,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (mSelectedPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_POSITION_KEY, mSelectedPosition);
+        }
+        super.onSaveInstanceState(outState);
+
     }
 
     private void updateWeather() {
@@ -155,6 +175,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mForecastAdapter.swapCursor(cursor);
+
+        if (mSelectedPosition != ListView.INVALID_POSITION) {
+            mForecastView.smoothScrollToPosition(mSelectedPosition);
+        }
     }
 
     @Override
