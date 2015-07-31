@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import us.roff.rroff.sunshine.data.WeatherContract;
-
 public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback{
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -41,6 +39,10 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         } else {
             mTwoPane = false;
         }
+
+        ForecastFragment forecastFragment = ((ForecastFragment)getSupportFragmentManager()
+                            .findFragmentById(R.id.fragment_forecast));
+        forecastFragment.setUseTodayLayout(!mTwoPane);
     }
 
     @Override

@@ -67,7 +67,16 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private int mSelectedPosition;
 
+    private boolean mUseTodayLayout;
+
     public ForecastFragment() {
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
     }
 
     @Override
@@ -98,6 +107,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         }
 
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
         mForecastView = (ListView)rootView.findViewById(R.id.listview_forecast);
         mForecastView.setAdapter(mForecastAdapter);
