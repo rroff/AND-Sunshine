@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Forecast List -->
-    <style name="ForecastList">
+    <style name="ForecastListStyle">
         <item name="android:choiceMode">singleChoice</item>
     </style>
 
