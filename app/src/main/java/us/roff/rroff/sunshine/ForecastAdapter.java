@@ -84,6 +84,9 @@ public class ForecastAdapter extends CursorAdapter {
         String description = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         viewHolder.descriptionView.setText(description);
 
+        // Add content description to icon for accessibility
+        viewHolder.iconView.setContentDescription(description);
+
         // High
         boolean isMetric = Utility.isMetric(context);
         Double maxTemp = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);

@@ -174,6 +174,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         String description = data.getString(DetailFragment.COL_WEATHER_DESC);
         viewHolder.descriptionView.setText(description);
 
+        // Add content description to icon for accessibility
+        viewHolder.iconView.setContentDescription(description);
+
         // High
         boolean isMetric = Utility.isMetric(getActivity());
         Double maxTemp = data.getDouble(DetailFragment.COL_WEATHER_MAX_TEMP);
