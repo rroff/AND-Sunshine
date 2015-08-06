@@ -40,6 +40,8 @@
         <provider
             android:authorities="us.roff.rroff.sunshine"
             android:name=".data.WeatherProvider" />
+
+        <service android:name=".service.SunshineService" />
     </application>
 
 </manifest>
