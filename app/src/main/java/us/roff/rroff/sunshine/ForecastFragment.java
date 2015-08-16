@@ -1,6 +1,9 @@
 package us.roff.rroff.sunshine;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -53,15 +56,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
-    static final int COL_WEATHER_ID = 0;
-    static final int COL_WEATHER_DATE = 1;
-    static final int COL_WEATHER_DESC = 2;
-    static final int COL_WEATHER_MAX_TEMP = 3;
-    static final int COL_WEATHER_MIN_TEMP = 4;
-    static final int COL_LOCATION_SETTING = 5;
-    static final int COL_WEATHER_CONDITION_ID = 6;
-    static final int COL_COORD_LAT = 7;
-    static final int COL_COORD_LONG = 8;
+    public static final int COL_WEATHER_ID = 0;
+    public static final int COL_WEATHER_DATE = 1;
+    public static final int COL_WEATHER_DESC = 2;
+    public static final int COL_WEATHER_MAX_TEMP = 3;
+    public static final int COL_WEATHER_MIN_TEMP = 4;
+    public static final int COL_LOCATION_SETTING = 5;
+    public static final int COL_WEATHER_CONDITION_ID = 6;
+    public static final int COL_COORD_LAT = 7;
+    public static final int COL_COORD_LONG = 8;
 
     private ListView mForecastView;
 
@@ -167,6 +170,14 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         serviceIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,
                 Utility.getPreferredLocation(getActivity()));
         getActivity().startService(serviceIntent);
+
+        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
+        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,
+                Utility.getPreferredLocation(getActivity()));
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent,
+                                        PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmMgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 1000), pendingIntent);
     }
 
     public void onLocationChanged() {
