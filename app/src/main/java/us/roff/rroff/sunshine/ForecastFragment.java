@@ -1,10 +1,6 @@
 package us.roff.rroff.sunshine;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import us.roff.rroff.sunshine.data.WeatherContract;
-import us.roff.rroff.sunshine.service.SunshineService;
+import us.roff.rroff.sunshine.sync.SunshineSyncAdapter;
 
 
 /**
@@ -166,18 +162,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-        Intent serviceIntent = new Intent(getActivity(), SunshineService.class);
-        serviceIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,
-                Utility.getPreferredLocation(getActivity()));
-        getActivity().startService(serviceIntent);
-
-        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
-        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,
-                Utility.getPreferredLocation(getActivity()));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent,
-                                        PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager alarmMgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (5 * 1000), pendingIntent);
+        SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
     public void onLocationChanged() {
