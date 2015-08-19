@@ -445,19 +445,27 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 cVVector.add(weatherValues);
             }
 
+            // Add items to database
             int inserted = 0;
-            // add to database
+            int deleted = 0;
             try {
                 if (cVVector.size() > 0) {
                     inserted = provider.bulkInsert(WeatherContract.WeatherEntry.CONTENT_URI,
                             cVVector.toArray(new ContentValues[cVVector.size()]));
+
+                    deleted = provider.delete(WeatherContract.WeatherEntry.CONTENT_URI,
+                            WeatherContract.WeatherEntry.COLUMN_DATE + "<=?",
+                            new String[]{
+                                    Long.toString(dayTime.setJulianDay(julianStartDay-1))
+                            });
+
                     notifyWeather();
                 }
             } catch (RemoteException e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
                 e.printStackTrace();
             }
-            Log.d(LOG_TAG, "Fetch Complete. " + inserted + " Inserted");
+            Log.d(LOG_TAG, "Fetch Complete. " + inserted + " Inserted. " + deleted + " Deleted.");
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
