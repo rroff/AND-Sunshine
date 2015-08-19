@@ -30,6 +30,12 @@ public class Utility {
     // back into date objects for comparison/processing.
     public static final String DATE_FORMAT = "yyyyMMdd";
 
+    public static boolean isNotificationEnabled(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.pref_notification_key),
+                Boolean.parseBoolean(context.getString(R.string.pref_notification_default)));
+    }
+
     public static String getPreferredLocation(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_location_key),

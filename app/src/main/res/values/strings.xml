@@ -40,6 +40,14 @@
         <item>@string/pref_units_imperial</item>
     </string-array>
 
+    <!-- Notification preference -->
+    <string name="pref_notification_label">Enable Notifications</string>
+    <string name="pref_notification_key" translatable="false">notification</string>
+
+    <string name="pref_notification_true">Enabled</string>
+    <string name="pref_notification_false">Not Enabled</string>
+    <string name="pref_notification_default" translatable="false">true</string>
+
     <!-- Date label when displaying today's weather forecast [CHAR LIMIT=20] -->
     <string name="today">Today</string>
 
