@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -68,9 +67,6 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
-        } else if (id == R.id.action_mapview) {
-            openPreferredLocationInMap();
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -94,25 +90,6 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             }
 
             mLocation = Utility.getPreferredLocation(this);
-        }
-    }
-
-    private void openPreferredLocationInMap() {
-        String location = Utility.getPreferredLocation(this);
-
-        final String MAP_BASE_URL = "geo:0,0";
-        final String QUERY_PARAM = "q";
-
-        Uri geolocation = Uri.parse(MAP_BASE_URL).buildUpon()
-                .appendQueryParameter(QUERY_PARAM, location)
-                .build();
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(geolocation);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            Log.w(LOG_TAG, "Unable to open geolocation intent");
         }
     }
 

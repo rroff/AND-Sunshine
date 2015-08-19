@@ -1,6 +1,7 @@
 package us.roff.rroff.sunshine;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -144,8 +146,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            updateWeather();
+//        if (id == R.id.action_refresh) {
+//            updateWeather();
+//            return true;
+//        }
+        if (id == R.id.action_mapview) {
+            openPreferredLocationInMap();
             return true;
         }
 
@@ -168,6 +174,31 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLocationChanged() {
         updateWeather();
         getLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
+    }
+
+    private void openPreferredLocationInMap() {
+        String location = Utility.getPreferredLocation(getActivity());
+
+        if (mForecastAdapter != null) {
+            Cursor cursor = mForecastAdapter.getCursor();
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+                String lat = cursor.getString(COL_COORD_LAT);
+                String lon = cursor.getString(COL_COORD_LONG);
+
+                Uri geolocation = Uri.parse("geo:" + lat + "," + lon);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geolocation);
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Log.w(LOG_TAG, "Unable to open geolocation intent ("
+                            + geolocation.toString() + ")");
+                }
+            }
+        }
     }
 
     @Override
