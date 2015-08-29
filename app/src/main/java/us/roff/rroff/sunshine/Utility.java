@@ -17,6 +17,8 @@ package us.roff.rroff.sunshine;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 
@@ -250,5 +252,20 @@ public class Utility {
             return R.drawable.art_clouds;
         }
         return -1;
+    }
+
+    /**
+     * Returns network availability.
+     *
+     * @param context Context used to get the ConnectivityManager
+     *
+     * @return True if network is available; False otherwise
+     */
+    static public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityMgr = (ConnectivityManager)context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = connectivityMgr.getActiveNetworkInfo();
+        return ((activeNetwork != null) && (activeNetwork.isConnectedOrConnecting()));
     }
 }

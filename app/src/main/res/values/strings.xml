@@ -87,4 +87,8 @@
 
     <!-- Empty weather list message -->
     <string name="empty_forecast_list">No Weather Information Available</string>
+
+    <!-- No network connectivity error -->
+    <string name="network_connection_error">No weather information available. The network is not available to fetch weather data.</string>
+
 </resources>

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import us.roff.rroff.sunshine.data.WeatherContract;
 import us.roff.rroff.sunshine.sync.SunshineSyncAdapter;
@@ -66,6 +67,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private ListView mForecastView;
 
+    private TextView mEmptyView;
+
     private ForecastAdapter mForecastAdapter;
 
     private int mSelectedPosition;
@@ -113,8 +116,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
         mForecastView = (ListView)rootView.findViewById(R.id.listview_forecast);
-        View emptyView = rootView.findViewById(R.id.empty_forecast);
-        mForecastView.setEmptyView(emptyView);
+        mEmptyView = (TextView)rootView.findViewById(R.id.empty_forecast);
+        mForecastView.setEmptyView(mEmptyView);
         mForecastView.setAdapter(mForecastAdapter);
         mForecastView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -223,11 +226,25 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if (mSelectedPosition != ListView.INVALID_POSITION) {
             mForecastView.smoothScrollToPosition(mSelectedPosition);
         }
+
+        updateEmptyView();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mForecastAdapter.swapCursor(null);
+    }
+
+    private void updateEmptyView() {
+        if (mForecastAdapter.getCount() == 0) {
+            if (mEmptyView != null) {
+                if (!Utility.isNetworkAvailable(getActivity())) {
+                    mEmptyView.setText(R.string.network_connection_error);
+                } else {
+                    mEmptyView.setText(R.string.empty_forecast_list);
+                }
+            }
+        }
     }
 
     /**
