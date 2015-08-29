@@ -2,18 +2,29 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="AppTheme.Base"/>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- colorPrimary is used for the default action bar background -->
         <item name="colorPrimary">@color/sunshine_blue</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
         <item name="colorPrimaryDark">@color/sunshine_dark_blue</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/sunshine_light_blue</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight & colorSwitchThumbNormal. -->
     </style>
 
     <!-- Main activity theme -->
-    <style name="ForecastTheme" parent="AppTheme">
+    <style name="ForecastTheme" parent="AppTheme.Base">
         <item name="actionBarStyle">@style/ActionBar.Solid.Sunshine.NoTitle</item>
     </style>
 
-    <style name="SettingsTheme" parent="AppTheme">
-    </style>
+    <style name="SettingsTheme" parent="AppTheme.Base"/>
 
     <!-- Main activity action bar styles -->
     <style name="ActionBar.Solid.Sunshine.NoTitle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
@@ -22,7 +33,6 @@
     </style>
 
     <!-- Forecast List -->
-    <style name="ForecastListStyle">
-    </style>
+    <style name="ForecastListStyle"/>
 
 </resources>
