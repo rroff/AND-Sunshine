@@ -103,7 +103,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         if ((savedInstanceState != null) && (savedInstanceState.containsKey(SELECTED_POSITION_KEY))) {
             mSelectedPosition = savedInstanceState.getInt(SELECTED_POSITION_KEY);
@@ -113,6 +113,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
         mForecastView = (ListView)rootView.findViewById(R.id.listview_forecast);
+        View emptyView = rootView.findViewById(R.id.empty_forecast);
+        mForecastView.setEmptyView(emptyView);
         mForecastView.setAdapter(mForecastAdapter);
         mForecastView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
