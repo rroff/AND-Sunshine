@@ -2,9 +2,11 @@ package us.roff.rroff.sunshine;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -27,7 +29,9 @@ import us.roff.rroff.sunshine.sync.SunshineSyncAdapter;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ForecastFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>,
+                   SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
@@ -144,6 +148,20 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
+    public void onPause() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        super.onResume();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -241,9 +259,30 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 if (!Utility.isNetworkAvailable(getActivity())) {
                     mEmptyView.setText(R.string.network_connection_error);
                 } else {
-                    mEmptyView.setText(R.string.empty_forecast_list);
+                    int message = R.string.empty_forecast_list;
+                    switch (Utility.getLocationStatus(getActivity())) {
+                        case SunshineSyncAdapter.LOCATION_STATUS_SERVER_DOWN:
+                            message = R.string.empty_forecast_list_server_down;
+                            break;
+                        case SunshineSyncAdapter.LOCATION_STATUS_SERVER_INVALID:
+                            message = R.string.empty_forecast_list_server_error;
+                            break;
+                        default:
+                            if (!Utility.isNetworkAvailable(getActivity())) {
+                                message = R.string.network_connection_error;
+                            }
+                            break;
+                    }
+                    mEmptyView.setText(message);
                 }
             }
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.pref_location_status_key))) {
+            updateEmptyView();
         }
     }
 

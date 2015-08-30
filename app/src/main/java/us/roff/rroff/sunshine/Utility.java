@@ -26,6 +26,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import us.roff.rroff.sunshine.sync.SunshineSyncAdapter;
+
 public class Utility {
 
     // Format used for storing dates in the database.  ALso used for converting those strings
@@ -267,5 +269,19 @@ public class Utility {
 
         NetworkInfo activeNetwork = connectivityMgr.getActiveNetworkInfo();
         return ((activeNetwork != null) && (activeNetwork.isConnectedOrConnecting()));
+    }
+
+    /**
+     *
+     * @param context Context used to get the SharedPreferences
+     * @return the location status integer type
+     */
+    @SuppressWarnings("ResourceType")
+    static public @SunshineSyncAdapter.LocationStatus int getLocationStatus(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        @SunshineSyncAdapter.LocationStatus int status
+                = prefs.getInt(context.getString(R.string.pref_location_status_key),
+                SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN);
+        return status;
     }
 }
