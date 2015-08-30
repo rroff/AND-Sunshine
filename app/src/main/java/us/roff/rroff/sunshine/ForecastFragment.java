@@ -257,7 +257,7 @@ public class ForecastFragment extends Fragment
         if (mForecastAdapter.getCount() == 0) {
             if (mEmptyView != null) {
                 if (!Utility.isNetworkAvailable(getActivity())) {
-                    mEmptyView.setText(R.string.network_connection_error);
+                    mEmptyView.setText(R.string.empty_forecast_list_no_network);
                 } else {
                     int message = R.string.empty_forecast_list;
                     switch (Utility.getLocationStatus(getActivity())) {
@@ -269,7 +269,7 @@ public class ForecastFragment extends Fragment
                             break;
                         default:
                             if (!Utility.isNetworkAvailable(getActivity())) {
-                                message = R.string.network_connection_error;
+                                message = R.string.empty_forecast_list_no_network;
                             }
                             break;
                     }
