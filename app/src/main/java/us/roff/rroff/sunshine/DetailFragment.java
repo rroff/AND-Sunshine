@@ -173,30 +173,41 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         // Forecast
         String description = data.getString(DetailFragment.COL_WEATHER_DESC);
         viewHolder.descriptionView.setText(description);
+        viewHolder.descriptionView.setContentDescription(
+                getString(R.string.a11y_forecast, description));
 
         // Add content description to icon for accessibility
-        viewHolder.iconView.setContentDescription(description);
+        viewHolder.iconView.setContentDescription(
+                getString(R.string.a11y_forecast_icon, description));
 
         // High
         boolean isMetric = Utility.isMetric(getActivity());
         Double maxTemp = data.getDouble(DetailFragment.COL_WEATHER_MAX_TEMP);
         String maxTempString = Utility.formatTemperature(getActivity(), maxTemp, isMetric);
         viewHolder.highTempView.setText(maxTempString);
+        viewHolder.highTempView.setContentDescription(
+                getString(R.string.a11y_high_temp, maxTempString));
 
         // Low
         Double minTemp = data.getDouble(DetailFragment.COL_WEATHER_MIN_TEMP);
         String minTempString = Utility.formatTemperature(getActivity(), minTemp, isMetric);
         viewHolder.lowTempView.setText(minTempString);
+        viewHolder.lowTempView.setContentDescription(
+                getString(R.string.ally_low_temp, minTempString));
 
         // Humidity
         Double humidity = data.getDouble(DetailFragment.COL_WEATHER_HUMIDITY);
         viewHolder.humidityView.setText(
+                String.format(getActivity().getString(R.string.format_humidity), humidity));
+        viewHolder.humidityView.setContentDescription(
                 String.format(getActivity().getString(R.string.format_humidity), humidity));
 
         // Windspeed
         Float windspeed = data.getFloat(DetailFragment.COL_WEATHER_WIND_SPEED);
         Float degrees = data.getFloat(DetailFragment.COL_WEATHER_DEGREES);
         viewHolder.windspeedView.setText(Utility.getFormattedWind(getActivity(), windspeed, degrees));
+        viewHolder.windspeedView.setContentDescription(
+                Utility.getWindContentDescriptor(getActivity(), windspeed, degrees));
 
         // Pressure
         Double pressure = data.getDouble(DetailFragment.COL_WEATHER_PRESSURE);

@@ -75,26 +75,35 @@ public class ForecastAdapter extends CursorAdapter {
                     Utility.getIconResourceForWeatherCondition(
                             cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
         }
+        // No content description needed for icon in list view, as it would be a duplicate of the
+        // description
+        viewHolder.iconView.setContentDescription(null);
 
         // Date
         long dateInMillis = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
         viewHolder.dateView.setText(Utility.getFriendlyDayString(context, dateInMillis));
+        viewHolder.dateView.setContentDescription(Utility.getFriendlyDayString(context, dateInMillis));
 
         // Forecast
         String description = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         viewHolder.descriptionView.setText(description);
-
-        // Add content description to icon for accessibility
-        viewHolder.iconView.setContentDescription(description);
+        viewHolder.descriptionView.setContentDescription(
+                context.getString(R.string.a11y_forecast, description));
 
         // High
         boolean isMetric = Utility.isMetric(context);
         Double maxTemp = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
-        viewHolder.highTempView.setText(Utility.formatTemperature(context, maxTemp, isMetric));
+        String high = Utility.formatTemperature(context, maxTemp, isMetric);
+        viewHolder.highTempView.setText(high);
+        viewHolder.highTempView.setContentDescription(
+                context.getString(R.string.a11y_high_temp, high));
 
         // Low
         Double minTemp = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
-        viewHolder.lowTempView.setText(Utility.formatTemperature(context, minTemp, isMetric));
+        String low = Utility.formatTemperature(context, minTemp, isMetric);
+        viewHolder.lowTempView.setText(low);
+        viewHolder.lowTempView.setContentDescription(
+                context.getString(R.string.ally_low_temp, low));
     }
 
     /**
