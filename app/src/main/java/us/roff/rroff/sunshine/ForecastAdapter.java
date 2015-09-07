@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * {@link ForecastAdapter} exposes a list of weather forecasts
  * from a {@link android.database.Cursor} to a {@link android.widget.ListView}.
@@ -66,15 +68,20 @@ public class ForecastAdapter extends CursorAdapter {
 
         // Placeholder image
         int viewType = getItemViewType(cursor.getPosition());
+        int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
+        int fallbackIconId;
         if (viewType == VIEW_TYPE_TODAY) {
-            viewHolder.iconView.setImageResource(
-                    Utility.getArtResourceForWeatherCondition(
-                            cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+            fallbackIconId = Utility.getArtResourceForWeatherCondition(weatherId);
         } else {
-            viewHolder.iconView.setImageResource(
-                    Utility.getIconResourceForWeatherCondition(
-                            cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+            fallbackIconId = Utility.getIconResourceForWeatherCondition(weatherId);
         }
+
+        Glide.with(context)
+                .load(Utility.getArtUrlForWeatherCondition(context, weatherId))
+                .error(fallbackIconId)
+                .crossFade()
+                .into(viewHolder.iconView);
+
         // No content description needed for icon in list view, as it would be a duplicate of the
         // description
         viewHolder.iconView.setContentDescription(null);

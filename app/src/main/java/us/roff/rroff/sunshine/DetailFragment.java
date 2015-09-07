@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import us.roff.rroff.sunshine.data.WeatherContract;
 
 
@@ -159,10 +161,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         ViewHolder viewHolder = (ViewHolder)getView().getTag();
 
-        // Placeholder image
-        viewHolder.iconView.setImageResource(
-                Utility.getArtResourceForWeatherCondition(
-                        data.getInt(DetailFragment.COL_WEATHER_CONDITION_ID)));
+        // Use weather art image, if available
+        int weatherId = data.getInt(DetailFragment.COL_WEATHER_CONDITION_ID);
+        Glide.with(this)
+                .load(Utility.getArtUrlForWeatherCondition(getActivity(), weatherId))
+                .error(Utility.getArtResourceForWeatherCondition(weatherId))
+                .into(viewHolder.iconView);
 
         // Date/Day
         long dateInMillis = data.getLong(DetailFragment.COL_WEATHER_DATE);
