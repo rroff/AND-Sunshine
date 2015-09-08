@@ -25,6 +25,7 @@ import android.text.format.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import us.roff.rroff.sunshine.sync.SunshineSyncAdapter;
 
@@ -44,6 +45,12 @@ public class Utility {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_location_key),
                 context.getString(R.string.pref_location_default));
+    }
+
+    public static String getIconPackUrl(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(context.getString(R.string.pref_icon_pack_key),
+                context.getString(R.string.pref_icon_pack_default));
     }
 
     public static boolean isMetric(Context context) {
@@ -293,30 +300,32 @@ public class Utility {
      * @return resource id for the corresponding image. -1 if no relation is found.
      */
     public static String getArtUrlForWeatherCondition(Context context, int weatherId) {
+        String formatArtUrl = getIconPackUrl(context);
+
         // Based on weather code data found at:
         // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
         if (weatherId >= 200 && weatherId <= 232) {
-            return context.getString(R.string.format_art_url, "storm");
+            return String.format(Locale.US, formatArtUrl, "storm");
         } else if (weatherId >= 300 && weatherId <= 321) {
-            return context.getString(R.string.format_art_url, "light_rain");
+            return String.format(Locale.US, formatArtUrl, "light_rain");
         } else if (weatherId >= 500 && weatherId <= 504) {
-            return context.getString(R.string.format_art_url, "rain");
+            return String.format(Locale.US, formatArtUrl, "rain");
         } else if (weatherId == 511) {
-            return context.getString(R.string.format_art_url, "snow");
+            return String.format(Locale.US, formatArtUrl, "snow");
         } else if (weatherId >= 520 && weatherId <= 531) {
-            return context.getString(R.string.format_art_url, "rain");
+            return String.format(Locale.US, formatArtUrl, "rain");
         } else if (weatherId >= 600 && weatherId <= 622) {
-            return context.getString(R.string.format_art_url, "snow");
+            return String.format(Locale.US, formatArtUrl, "snow");
         } else if (weatherId >= 701 && weatherId <= 761) {
-            return context.getString(R.string.format_art_url, "fog");
+            return String.format(Locale.US, formatArtUrl, "fog");
         } else if (weatherId == 761 || weatherId == 781) {
-            return context.getString(R.string.format_art_url, "storm");
+            return String.format(Locale.US, formatArtUrl, "storm");
         } else if (weatherId == 800) {
-            return context.getString(R.string.format_art_url, "clear");
+            return String.format(Locale.US, formatArtUrl, "clear");
         } else if (weatherId == 801) {
-            return context.getString(R.string.format_art_url, "light_clouds");
+            return String.format(Locale.US, formatArtUrl, "light_clouds");
         } else if (weatherId >= 802 && weatherId <= 804) {
-            return context.getString(R.string.format_art_url, "clouds");
+            return String.format(Locale.US, formatArtUrl, "clouds");
         }
         return null;
     }

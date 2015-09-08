@@ -163,10 +163,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         // Use weather art image, if available
         int weatherId = data.getInt(DetailFragment.COL_WEATHER_CONDITION_ID);
+        String artUrl = Utility.getArtUrlForWeatherCondition(getActivity(), weatherId);
         Glide.with(this)
-                .load(Utility.getArtUrlForWeatherCondition(getActivity(), weatherId))
+                .load(artUrl)
                 .error(Utility.getArtResourceForWeatherCondition(weatherId))
                 .into(viewHolder.iconView);
+
 
         // Date/Day
         long dateInMillis = data.getLong(DetailFragment.COL_WEATHER_DATE);

@@ -76,8 +76,9 @@ public class ForecastAdapter extends CursorAdapter {
             fallbackIconId = Utility.getIconResourceForWeatherCondition(weatherId);
         }
 
+        String artUrl = Utility.getArtUrlForWeatherCondition(context, weatherId);
         Glide.with(context)
-                .load(Utility.getArtUrlForWeatherCondition(context, weatherId))
+                .load(artUrl)
                 .error(fallbackIconId)
                 .crossFade()
                 .into(viewHolder.iconView);
