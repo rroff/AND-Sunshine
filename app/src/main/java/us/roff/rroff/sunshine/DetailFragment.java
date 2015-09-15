@@ -172,9 +172,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         // Date/Day
         long dateInMillis = data.getLong(DetailFragment.COL_WEATHER_DATE);
-        String dateString = Utility.getFormattedMonthDay(getActivity(), dateInMillis);
+        String dateString = Utility.getFullFriendlyDayString(getActivity(), dateInMillis);
         viewHolder.dateView.setText(dateString);
-        viewHolder.dayView.setText(Utility.getDayName(getActivity(), dateInMillis));
 
         // Forecast
         String description = data.getString(DetailFragment.COL_WEATHER_DESC);
@@ -238,7 +237,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static class ViewHolder {
         public final ImageView iconView;
         public final TextView dateView;
-        public final TextView dayView;
         public final TextView descriptionView;
         public final TextView highTempView;
         public final TextView lowTempView;
@@ -249,7 +247,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         public ViewHolder(View view) {
             iconView = (ImageView) view.findViewById(R.id.detail_icon);
             dateView = (TextView) view.findViewById(R.id.detail_date_textview);
-            dayView = (TextView) view.findViewById(R.id.detail_day_textview);
             descriptionView = (TextView) view.findViewById(R.id.detail_forecast_textview);
             highTempView = (TextView) view.findViewById(R.id.detail_high_textview);
             lowTempView = (TextView) view.findViewById(R.id.detail_low_textview);

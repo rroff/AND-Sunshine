@@ -8,9 +8,14 @@
     <color name="white">#ffffff</color>
 
     <!-- Material Design Colors -->
-    <color name="colorPrimary">#03a9f4</color>
-    <color name="colorPrimaryDark">#0288d1</color>
-    <color name="colorPrimaryLight">#b3e5fc</color>
-    <color name="colorAccent">#ffd740</color>
+    <color name="primary">#03a9f4</color>
+    <color name="primary_dark">#0288d1</color>
+    <color name="primary_light">#b3e5fc</color>
+    <color name="accent">#ffd740</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+
+    <color name="detail_accent_pane_background">#455a64</color>
+    <color name="detail_accent_label">#90a4ae</color>
 
 </resources>

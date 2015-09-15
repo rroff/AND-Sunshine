@@ -5,4 +5,11 @@
 
     <!-- Default size for notifications -->
     <dimen name="notification_large_icon_default">48dp</dimen>
+
+    <!-- Icon Sizes -->
+    <dimen name="today_icon">96dp</dimen>
+
+    <!-- Extra Padding -->
+    <dimen name="forecast_detail_horizontal_padding">32dp</dimen>
+    <dimen name="detail_view_extra_padding">@dimen/abc_list_item_padding_horizontal_material</dimen>
 </resources>
