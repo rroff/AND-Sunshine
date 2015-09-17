@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="horizontal">
@@ -42,7 +43,7 @@
                 android:gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textColor="@android:color/white"
-                android:text="38%" />
+                tools:text="38%" />
             <!-- Row 2: Pressure -->
             <TextView
                 android:id="@+id/detail_pressure_label_textview"
@@ -61,7 +62,7 @@
                 android:gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textColor="@android:color/white"
-                android:text="995 hPa" />
+                tools:text="995 hPa" />
             <!-- Row 3: Wind -->
             <TextView
                 android:id="@+id/detail_wind_label_textview"
@@ -80,7 +81,7 @@
                 android:gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textColor="@android:color/white"
-                android:text="4km/h NW" />
+                tools:text="4km/h NW" />
             <!-- Bottom Spacer -->
             <android.support.v7.widget.Space
                 app:layout_columnSpan="2"
