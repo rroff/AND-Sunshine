@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
@@ -11,74 +9,9 @@
              android:layout_height="0dp"
              android:layout_weight="3"/>
 
-    <android.support.v7.widget.GridLayout
-        android:id="@+id/detail_additional_pane"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:background="@color/detail_accent_pane_background"
-        android:paddingBottom="@dimen/detail_view_extra_padding"
-        android:paddingEnd="@dimen/forecast_detail_horizontal_padding"
-        android:paddingLeft="@dimen/forecast_detail_horizontal_padding"
-        android:paddingRight="@dimen/forecast_detail_horizontal_padding"
-        android:paddingStart="@dimen/forecast_detail_horizontal_padding"
-        android:paddingTop="@dimen/detail_view_extra_padding"
-        app:columnCount="2">
+    <include layout="@layout/detail_extras_grid"
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             android:layout_weight="2"/>
 
-        <!-- Row 1: Humidity -->
-        <TextView
-            android:id="@+id/detail_humidity_label_textview"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/detail_accent_label"
-            app:layout_rowWeight="1"
-            app:layout_columnWeight="1"
-            app:layout_gravity="fill"
-            android:text="@string/humidity"/>
-        <TextView
-            android:id="@+id/detail_humidity_textview"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/white"
-            app:layout_gravity="fill"
-            tools:text="38%" />
-        <!-- Row 2: Pressure -->
-        <TextView
-            android:id="@+id/detail_pressure_label_textview"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/detail_accent_label"
-            app:layout_rowWeight="1"
-            app:layout_gravity="fill"
-            android:text="@string/pressure"/>
-        <TextView
-            android:id="@+id/detail_pressure_textview"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/white"
-            app:layout_gravity="fill"
-            tools:text="995 hPa" />
-        <!-- Row 3: Wind -->
-        <TextView
-            android:id="@+id/detail_wind_label_textview"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:textColor="@color/detail_accent_label"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            app:layout_rowWeight="1"
-            app:layout_gravity="fill"
-            android:text="@string/wind"/>
-        <TextView
-            android:id="@+id/detail_wind_textview"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/white"
-            app:layout_gravity="fill"
-            tools:text="4km/h NW" />
-    </android.support.v7.widget.GridLayout>
 </LinearLayout>

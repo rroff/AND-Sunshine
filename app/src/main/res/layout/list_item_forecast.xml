@@ -5,8 +5,10 @@
               android:layout_height="wrap_content"
               android:gravity="center_vertical"
               android:minHeight="?android:attr/listPreferredItemHeight"
+              android:paddingLeft="@dimen/list_item_extra_padding"
+              android:paddingRight="@dimen/list_item_extra_padding"
               android:orientation="horizontal"
-              android:background="@drawable/touch_selector_white">
+              android:background="@drawable/touch_selector">
 
     <ImageView
             android:id="@+id/list_item_icon"
@@ -40,8 +42,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/secondary_text"
             tools:text="Clear"/>
-
-
     </LinearLayout>
 
     <TextView
