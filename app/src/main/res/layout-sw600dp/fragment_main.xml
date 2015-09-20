@@ -23,7 +23,7 @@
         android:divider="@null" />
     <!-- empty list -->
     <TextView
-        android:id="@+id/listview_forecast_empty"
+        android:id="@+id/empty_forecast"
         android:text="@string/empty_forecast_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
