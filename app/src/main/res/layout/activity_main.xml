@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,7 +23,6 @@
         android:name="us.roff.rroff.sunshine.ForecastFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="us.roff.rroff.sunshine.ForecastFragment"
         tools:layout="@android:layout/list_content" />
 
-</LinearLayout>
+</FrameLayout>
