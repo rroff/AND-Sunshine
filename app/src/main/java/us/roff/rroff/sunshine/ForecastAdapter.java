@@ -81,36 +81,36 @@ public class ForecastAdapter extends CursorAdapter {
                 .load(artUrl)
                 .error(fallbackIconId)
                 .crossFade()
-                .into(viewHolder.iconView);
+                .into(viewHolder.mIconView);
 
         // No content description needed for icon in list view, as it would be a duplicate of the
         // description
-        viewHolder.iconView.setContentDescription(null);
+        viewHolder.mIconView.setContentDescription(null);
 
         // Date
         long dateInMillis = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
-        viewHolder.dateView.setText(Utility.getFriendlyDayString(context, dateInMillis));
-        viewHolder.dateView.setContentDescription(Utility.getFriendlyDayString(context, dateInMillis));
+        viewHolder.mDateView.setText(Utility.getFriendlyDayString(context, dateInMillis));
+        viewHolder.mDateView.setContentDescription(Utility.getFriendlyDayString(context, dateInMillis));
 
         // Forecast
         String description = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
-        viewHolder.descriptionView.setText(description);
-        viewHolder.descriptionView.setContentDescription(
+        viewHolder.mDescriptionView.setText(description);
+        viewHolder.mDescriptionView.setContentDescription(
                 context.getString(R.string.a11y_forecast, description));
 
         // High
         boolean isMetric = Utility.isMetric(context);
         Double maxTemp = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
         String high = Utility.formatTemperature(context, maxTemp, isMetric);
-        viewHolder.highTempView.setText(high);
-        viewHolder.highTempView.setContentDescription(
+        viewHolder.mHighTempView.setText(high);
+        viewHolder.mHighTempView.setContentDescription(
                 context.getString(R.string.a11y_high_temp, high));
 
         // Low
         Double minTemp = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
         String low = Utility.formatTemperature(context, minTemp, isMetric);
-        viewHolder.lowTempView.setText(low);
-        viewHolder.lowTempView.setContentDescription(
+        viewHolder.mLowTempView.setText(low);
+        viewHolder.mLowTempView.setContentDescription(
                 context.getString(R.string.ally_low_temp, low));
     }
 
@@ -118,18 +118,18 @@ public class ForecastAdapter extends CursorAdapter {
      * Cache of the children views for a forecast list item.
      */
     private static class ViewHolder {
-        public final ImageView iconView;
-        public final TextView dateView;
-        public final TextView descriptionView;
-        public final TextView highTempView;
-        public final TextView lowTempView;
+        public final ImageView mIconView;
+        public final TextView mDateView;
+        public final TextView mDescriptionView;
+        public final TextView mHighTempView;
+        public final TextView mLowTempView;
 
         public ViewHolder(View view) {
-            iconView = (ImageView) view.findViewById(R.id.list_item_icon);
-            dateView = (TextView) view.findViewById(R.id.list_item_date_textview);
-            descriptionView = (TextView) view.findViewById(R.id.list_item_forecast_textview);
-            highTempView = (TextView) view.findViewById(R.id.list_item_high_textview);
-            lowTempView = (TextView) view.findViewById(R.id.list_item_low_textview);
+            mIconView        = (ImageView)view.findViewById(R.id.list_item_icon);
+            mDateView        = (TextView)view.findViewById(R.id.list_item_date_textview);
+            mDescriptionView = (TextView)view.findViewById(R.id.list_item_forecast_textview);
+            mHighTempView    = (TextView)view.findViewById(R.id.list_item_high_textview);
+            mLowTempView     = (TextView)view.findViewById(R.id.list_item_low_textview);
         }
     }
 }
