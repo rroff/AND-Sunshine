@@ -1,5 +1,6 @@
 package us.roff.rroff.sunshine;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -114,32 +115,26 @@ public class ForecastFragment extends Fragment
             mSelectedPosition = savedInstanceState.getInt(SELECTED_POSITION_KEY);
         }
 
-        mForecastAdapter = new ForecastAdapter(getActivity());
-        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         mForecastView = (RecyclerView)rootView.findViewById(R.id.recyclerview_forecast);
         mEmptyView = (TextView)rootView.findViewById(R.id.empty_forecast);
         mForecastView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mForecastAdapter = new ForecastAdapter(getActivity(),new ForecastAdapter.ForecastAdapterOnClickHandler() {
+            @Override
+            public void onClick(Long date, ForecastAdapter.ForecastAdapterViewHolder vh) {
+                String locationSetting = Utility.getPreferredLocation(getActivity());
+                Uri uri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                        locationSetting, date);
+
+                Activity activity = getActivity();
+                if (activity instanceof Callback) {
+                    ((Callback) activity).onItemSelected(uri);
+                }
+
+                mSelectedPosition = vh.getAdapterPosition();
+            }
+        });
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         mForecastView.setAdapter(mForecastAdapter);
-//        mForecastView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView adapterView, View view, int position, long l) {
-//                mSelectedPosition = position;
-//
-//                // CursorAdapter returns a cursor at the correct position for getItem(), or null
-//                // if it cannot seek to that position.
-//                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-//                if (cursor != null) {
-//                    String locationSetting = Utility.getPreferredLocation(getActivity());
-//                    Uri uri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                            locationSetting, cursor.getLong(COL_WEATHER_DATE));
-//
-//                    Activity activity = getActivity();
-//                    if (activity instanceof Callback) {
-//                        ((Callback) activity).onItemSelected(uri);
-//                    }
-//                }
-//            }
-//        });
 
         return rootView;
     }
@@ -251,8 +246,8 @@ public class ForecastFragment extends Fragment
     }
 
     private void updateEmptyView() {
-        if (mForecastAdapter.getItemCount() == 0) {
-            if (mEmptyView != null) {
+        if (mEmptyView != null) {
+            if (mForecastAdapter.getItemCount() == 0) {
                 if (!Utility.isNetworkAvailable(getActivity())) {
                     mEmptyView.setText(R.string.empty_forecast_list_no_network);
                 } else {
@@ -275,6 +270,9 @@ public class ForecastFragment extends Fragment
                     }
                     mEmptyView.setText(message);
                 }
+                mEmptyView.setVisibility(View.VISIBLE);
+            } else {
+                mEmptyView.setVisibility(View.GONE);
             }
         }
     }
