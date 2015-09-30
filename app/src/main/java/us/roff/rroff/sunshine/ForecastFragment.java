@@ -3,6 +3,7 @@ package us.roff.rroff.sunshine;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +22,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 import android.widget.TextView;
 
 import us.roff.rroff.sunshine.data.WeatherContract;
@@ -78,6 +82,10 @@ public class ForecastFragment extends Fragment
 
     private boolean mUseTodayLayout;
 
+    private boolean mAutoSelectView;
+
+    private int mChoiceMode;
+
     public ForecastFragment() {
     }
 
@@ -106,14 +114,20 @@ public class ForecastFragment extends Fragment
     }
 
     @Override
+    public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(activity, attrs, savedInstanceState);
+        TypedArray a = activity.obtainStyledAttributes(attrs, R.styleable.ForecastFragment,
+                0, 0);
+        mChoiceMode = a.getInt(R.styleable.ForecastFragment_android_choiceMode, AbsListView.CHOICE_MODE_NONE);
+        mAutoSelectView = a.getBoolean(R.styleable.ForecastFragment_autoSelectView, false);
+        a.recycle();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        if ((savedInstanceState != null) && (savedInstanceState.containsKey(SELECTED_POSITION_KEY))) {
-            mSelectedPosition = savedInstanceState.getInt(SELECTED_POSITION_KEY);
-        }
 
         mForecastView = (RecyclerView)rootView.findViewById(R.id.recyclerview_forecast);
         mEmptyView = (TextView)rootView.findViewById(R.id.empty_forecast);
@@ -132,9 +146,23 @@ public class ForecastFragment extends Fragment
 
                 mSelectedPosition = vh.getAdapterPosition();
             }
-        });
+        }, mChoiceMode);
         mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         mForecastView.setAdapter(mForecastAdapter);
+
+        // If there's instance state, mine it for useful information.
+        // The end-goal here is that the user never knows that turning their device sideways
+        // does crazy lifecycle related things.  It should feel like some stuff stretched out,
+        // or magically appeared to take advantage of room, but data or place in the app was never
+        // actually *lost*.
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(SELECTED_POSITION_KEY)) {
+                // The Recycler View probably hasn't even been populated yet.  Actually perform the
+                // swapout in onLoadFinished.
+                mSelectedPosition = savedInstanceState.getInt(SELECTED_POSITION_KEY);
+            }
+            mForecastAdapter.onRestoreInstanceState(savedInstanceState);
+        }
 
         return rootView;
     }
@@ -178,6 +206,7 @@ public class ForecastFragment extends Fragment
         if (mSelectedPosition != RecyclerView.NO_POSITION) {
             outState.putInt(SELECTED_POSITION_KEY, mSelectedPosition);
         }
+        mForecastAdapter.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
 
     }
@@ -238,6 +267,28 @@ public class ForecastFragment extends Fragment
         }
 
         updateEmptyView();
+        if (cursor.getCount() > 0 ) {
+            mForecastView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    // Since we know we're going to get items, we keep the listener around until
+                    // we see Children.
+                    if (mForecastView.getChildCount() > 0) {
+                        mForecastView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        int itemPosition = mForecastAdapter.getSelectedItemPosition();
+                        if (RecyclerView.NO_POSITION == itemPosition) {
+                            itemPosition = 0;
+                        }
+                        RecyclerView.ViewHolder vh = mForecastView.findViewHolderForAdapterPosition(itemPosition);
+                        if (null != vh && mAutoSelectView) {
+                            mForecastAdapter.selectView(vh);
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     @Override

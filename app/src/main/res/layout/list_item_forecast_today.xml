@@ -1,77 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.GridLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeight"
     android:background="@drawable/touch_selector_white"
-    android:elevation="4dp"
-    app:columnCount="2">
+    android:elevation="@dimen/appbar_elevation">
 
-    <!-- Row 1: Date -->
-    <TextView
-        android:id="@+id/list_item_date_textview"
-        android:layout_marginTop="@dimen/list_view_extra_padding"
-        android:layout_marginBottom="@dimen/list_view_extra_padding"
-        android:fontFamily="sans-serif"
-        android:gravity="center_horizontal"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="@color/secondary_text"
-        app:layout_columnSpan="2"
-        app:layout_columnWeight="1"
-        app:layout_gravity="fill_horizontal"
-        tools:text="Tomorrow, May 09"/>
-    <!-- Row 2: Image, High -->
-    <ImageView
-        android:id="@+id/list_item_icon"
-        android:layout_width="0dp"
-        android:adjustViewBounds="true"
-        android:maxHeight="@dimen/today_icon"
-        android:maxWidth="@dimen/today_icon"
-        app:layout_columnWeight="1"
-        app:layout_gravity="fill_horizontal"
-        tools:src="@drawable/art_clear"/>
-    <TextView
-        android:id="@+id/list_item_high_textview"
-        android:layout_width="0dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_horizontal"
-        android:textColor="@color/primary_text"
-        android:textSize="72sp"
-        app:layout_columnWeight="1"
-        app:layout_gravity="fill_horizontal"
-        tools:text="20"/>
-    <!-- Row 3: Forecast, Low -->
-    <TextView
-        android:id="@+id/list_item_forecast_textview"
-        android:layout_width="0dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center_horizontal"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="@color/secondary_text"
-        app:layout_columnWeight="1"
-        tools:text="Clear"/>
-    <TextView
-        android:id="@+id/list_item_low_textview"
-        android:layout_width="0dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_horizontal"
-        android:textColor="@color/secondary_text"
-        android:textSize="36sp"
-        app:layout_columnWeight="1"
-        tools:text="6"/>
-    <android.support.v7.widget.Space
-        app:layout_columnSpan="2"
-        android:layout_height="@dimen/list_view_extra_padding"/>
+    <include layout="@layout/list_item_base_forecast_today"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
 
-</android.support.v7.widget.GridLayout>
-
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:gravity="center_vertical"-->
-    <!--android:minHeight="?android:attr/listPreferredItemHeight"-->
-    <!--android:background="@drawable/today_touch_selector"-->
-    <!--android:orientation="horizontal" >-->
+</FrameLayout>

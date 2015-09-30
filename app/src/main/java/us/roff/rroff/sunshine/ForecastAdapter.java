@@ -2,6 +2,7 @@ package us.roff.rroff.sunshine;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +27,17 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     private final ForecastAdapterOnClickHandler mOnClickHandler;
 
+    private final ItemChoiceManager mICM;
+
     private boolean mUseTodayLayout;
 
     private Cursor mCursor;
 
-    public ForecastAdapter(Context context, ForecastAdapterOnClickHandler onClickHandler) {
+    public ForecastAdapter(Context context, ForecastAdapterOnClickHandler onClickHandler, int choiceMode) {
         mContext = context;
         mOnClickHandler = onClickHandler;
+        mICM = new ItemChoiceManager(this);
+        mICM.setChoiceMode(choiceMode);
     }
 
     public void setUseTodayLayout(boolean useTodayLayout) {
@@ -120,10 +125,31 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         viewHolder.mLowTempView.setText(low);
         viewHolder.mLowTempView.setContentDescription(
                 mContext.getString(R.string.ally_low_temp, low));
+
+        mICM.onBindViewHolder(viewHolder, position);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        mICM.onRestoreInstanceState(savedInstanceState);
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        mICM.onSaveInstanceState(outState);
     }
 
     public Cursor getCursor() {
         return mCursor;
+    }
+
+    public int getSelectedItemPosition() {
+        return mICM.getSelectedItemPosition();
+    }
+
+    public void selectView(RecyclerView.ViewHolder viewHolder) {
+        if (viewHolder instanceof ForecastAdapterViewHolder) {
+            ForecastAdapterViewHolder vfh = (ForecastAdapterViewHolder)viewHolder;
+            vfh.onClick(vfh.itemView);
+        }
     }
 
     public void swapCursor(Cursor newCursor) {
@@ -158,6 +184,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
             mCursor.moveToPosition(adapterPosition);
             int dateColumnIndex = mCursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_DATE);
             mOnClickHandler.onClick(mCursor.getLong(dateColumnIndex), this);
+            mICM.onClick(this);
         }
     }
 
