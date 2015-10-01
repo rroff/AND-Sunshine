@@ -3,6 +3,7 @@ package us.roff.rroff.sunshine;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +100,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         // No content description needed for icon in list view, as it would be a duplicate of the
         // description
         viewHolder.mIconView.setContentDescription(null);
+
+        // Setup Shared Element Transition
+        ViewCompat.setTransitionName(viewHolder.mIconView, "iconView"+position);
 
         // Date
         long dateInMillis = mCursor.getLong(ForecastFragment.COL_WEATHER_DATE);

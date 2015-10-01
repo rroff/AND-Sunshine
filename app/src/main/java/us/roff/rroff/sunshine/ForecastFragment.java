@@ -88,6 +88,8 @@ public class ForecastFragment extends Fragment
 
     private int mChoiceMode;
 
+    private boolean mHoldForTransition;
+
     public ForecastFragment() {
     }
 
@@ -100,6 +102,11 @@ public class ForecastFragment extends Fragment
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        // We hold for transition here just in-case the activity needs to be re-created.
+        // In a standard return transition, this doesn't actually make a difference.
+        if (mHoldForTransition) {
+            getActivity().supportPostponeEnterTransition();
+        }
         getLoaderManager().initLoader(FORECAST_LOADER_ID, null, this);
         super.onActivityCreated(savedInstanceState);
     }
@@ -122,6 +129,7 @@ public class ForecastFragment extends Fragment
                 0, 0);
         mChoiceMode = a.getInt(R.styleable.ForecastFragment_android_choiceMode, AbsListView.CHOICE_MODE_NONE);
         mAutoSelectView = a.getBoolean(R.styleable.ForecastFragment_autoSelectView, false);
+        mHoldForTransition = a.getBoolean(R.styleable.ForecastFragment_sharedElementTransitions, false);
         a.recycle();
     }
 
@@ -143,7 +151,7 @@ public class ForecastFragment extends Fragment
 
                 Activity activity = getActivity();
                 if (activity instanceof Callback) {
-                    ((Callback) activity).onItemSelected(uri);
+                    ((Callback) activity).onItemSelected(uri, vh);
                 }
 
                 mSelectedPosition = vh.getAdapterPosition();
@@ -163,7 +171,7 @@ public class ForecastFragment extends Fragment
                     if (dy > 0) {
                         parallaxView.setTranslationY(Math.max(-max, parallaxView.getTranslationY() - (dy/2)));
                     } else {
-                        parallaxView.setTranslationY(Math.min(0, parallaxView.getTranslationY() - (dy/2)));
+                        parallaxView.setTranslationY(Math.min(0, parallaxView.getTranslationY() - (dy / 2)));
                     }
                 }
             });
@@ -294,7 +302,10 @@ public class ForecastFragment extends Fragment
         }
 
         updateEmptyView();
-        if (cursor.getCount() > 0 ) {
+        if (cursor.getCount() == 0) {
+            getActivity().supportStartPostponedEnterTransition();
+        }
+        else {
             mForecastView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
@@ -309,6 +320,9 @@ public class ForecastFragment extends Fragment
                         RecyclerView.ViewHolder vh = mForecastView.findViewHolderForAdapterPosition(itemPosition);
                         if (null != vh && mAutoSelectView) {
                             mForecastAdapter.selectView(vh);
+                        }
+                        if (mHoldForTransition) {
+                            getActivity().supportStartPostponedEnterTransition();
                         }
                         return true;
                     }
@@ -371,6 +385,6 @@ public class ForecastFragment extends Fragment
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
-        public void onItemSelected(Uri dateUri);
+        public void onItemSelected(Uri dateUri, ForecastAdapter.ForecastAdapterViewHolder viewHolder);
     }
 }
