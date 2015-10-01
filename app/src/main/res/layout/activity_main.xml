@@ -7,5 +7,4 @@
     android:name="us.roff.rroff.sunshine.ForecastFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout="@android:layout/list_content"
     app:sharedElementTransitions="true"/>
