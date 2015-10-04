@@ -5,8 +5,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@drawable/touch_selector_white"
-              android:padding="4dp">
+              android:background="@color/primary"
+              android:padding="8dp">
     <ImageView
         android:id="@+id/widget_icon"
         android:layout_width="wrap_content"
@@ -21,6 +21,6 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif"
         android:textAppearance="?android:textAppearanceLarge"
-        android:textColor="@color/primary_text"
+        android:textColor="@color/white"
         tools:text="20"/>
 </LinearLayout>
