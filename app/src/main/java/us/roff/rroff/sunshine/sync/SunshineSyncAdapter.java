@@ -86,6 +86,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final int INDEX_MIN_TEMP = 2;
     private static final int INDEX_SHORT_DESC = 3;
 
+    public static final String ACTION_DATA_UPDATED = "us.roff.rroff.sunshine.ACTION_DATA_UPDATED";
+
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
@@ -529,6 +531,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                                     Long.toString(dayTime.setJulianDay(julianStartDay-1))
                             });
 
+                    updateWidgets();
                     notifyWeather();
                 }
                 Log.d(LOG_TAG, "Sync Complete. " + inserted + " Inserted. "
@@ -593,6 +596,14 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         return id;
+    }
+
+    private void updateWidgets() {
+        Context context = getContext();
+        // Setting the package ensures that only components in this app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(context.getPackageName());
+        context.sendBroadcast(dataUpdatedIntent);
     }
 
     /**
