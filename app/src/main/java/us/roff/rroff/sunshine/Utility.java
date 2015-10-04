@@ -70,6 +70,10 @@ public class Utility {
         return context.getString(R.string.format_temperature, temp);
     }
 
+    public static String formatTemperature(Context context, double temperature) {
+        return formatTemperature(context, temperature, isMetric(context));
+    }
+
     public static String formatDate(long dateInMillis) {
         Date date = new Date(dateInMillis);
         return DateFormat.getDateInstance().format(date);

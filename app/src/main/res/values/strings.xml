@@ -119,4 +119,7 @@
 
     <!-- Shared Element Transitions -->
     <string name="detail_icon_transition_name" translatable="false">detail_icon_transition</string>
+
+    <!-- Widget -->
+    <string name="title_widget_today">Sunshine Today</string>
 </resources>
