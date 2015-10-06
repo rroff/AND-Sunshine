@@ -51,6 +51,7 @@ import us.roff.rroff.sunshine.MainActivity;
 import us.roff.rroff.sunshine.R;
 import us.roff.rroff.sunshine.Utility;
 import us.roff.rroff.sunshine.data.WeatherContract;
+import us.roff.rroff.sunshine.muzei.WeatherMuzeiSource;
 
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = SunshineSyncAdapter.class.getSimpleName();
@@ -528,10 +529,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                     deleted = provider.delete(WeatherContract.WeatherEntry.CONTENT_URI,
                             WeatherContract.WeatherEntry.COLUMN_DATE + "<=?",
                             new String[]{
-                                    Long.toString(dayTime.setJulianDay(julianStartDay-1))
+                                    Long.toString(dayTime.setJulianDay(julianStartDay - 1))
                             });
 
                     updateWidgets();
+                    updateMuzei();
                     notifyWeather();
                 }
                 Log.d(LOG_TAG, "Sync Complete. " + inserted + " Inserted. "
@@ -596,6 +598,16 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         return id;
+    }
+
+    private void updateMuzei() {
+        // Muzei is only compatible with Jelly Bean MR1+ devices, so there's no need to update the
+        // Muzei background on lower API level devices
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Context context = getContext();
+            context.startService(new Intent(ACTION_DATA_UPDATED)
+                .setClass(context, WeatherMuzeiSource.class));
+        }
     }
 
     private void updateWidgets() {

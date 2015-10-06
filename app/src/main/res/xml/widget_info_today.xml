@@ -6,6 +6,7 @@
                     android:minWidth="@dimen/widget_today_default_width"
                     android:minResizeHeight="@dimen/widget_today_min_resize_height"
                     android:minResizeWidth="@dimen/widget_today_min_resize_width"
+                    android:previewImage="@drawable/ic_today_widget_preview"
                     android:resizeMode="horizontal"
                     android:updatePeriodMillis="0"
                     tools:ignore="UnusedAttribute"/>
