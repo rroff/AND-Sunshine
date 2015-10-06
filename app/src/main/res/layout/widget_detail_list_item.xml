@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/widget_list_item"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:minHeight="?android:attr/listPreferredItemHeight"
+              android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+              android:paddingRight="@dimen/abc_list_item_padding_horizontal_material"
+              android:orientation="horizontal"
+              android:background="@color/primary">
+
+    <ImageView
+        android:id="@+id/widget_icon"
+        android:layout_width="@dimen/list_icon"
+        android:layout_height="@dimen/list_icon"
+        android:layout_marginRight="@dimen/list_view_extra_padding"
+        android:layout_marginEnd="@dimen/list_view_extra_padding"
+        android:layout_gravity="center"
+        tools:src="@drawable/art_clear"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/widget_date_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/white"
+            tools:text="Tomorrow"/>
+        <TextView
+            android:id="@+id/widget_forecast_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            tools:text="Clear"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/widget_high_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/white"
+            tools:text="20"/>
+        <TextView
+            android:id="@+id/widget_low_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            tools:text="6"/>
+    </LinearLayout>
+</LinearLayout>

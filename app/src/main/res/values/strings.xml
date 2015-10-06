@@ -122,4 +122,5 @@
 
     <!-- Widget -->
     <string name="title_widget_today">Sunshine Today</string>
+    <string name="title_widget_detail">Sunshine Details</string>
 </resources>

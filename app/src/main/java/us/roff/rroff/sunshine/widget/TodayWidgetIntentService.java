@@ -27,7 +27,7 @@ public class TodayWidgetIntentService extends IntentService {
             WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
             WeatherContract.WeatherEntry.COLUMN_MIN_TEMP
     };
-    // these indices must match the projection
+    // Indices matching the projection
     private static final int INDEX_WEATHER_ID = 0;
     private static final int INDEX_SHORT_DESC = 1;
     private static final int INDEX_MAX_TEMP = 2;
