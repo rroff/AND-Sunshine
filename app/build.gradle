@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 
+// NOTE: The API key is defined in the private file {UserHome}/.gradle/gradle.properties
+def OPEN_WEATHER_MAP_API_KEY = '"' + OpenWeatherMapApiKey + '"' ?: '"Set OpenWeatherMap API Key"';
+android.buildTypes.each { type ->
+    type.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', OPEN_WEATHER_MAP_API_KEY
+}
+
 android {
     compileSdkVersion 22
     buildToolsVersion '22.0.1'

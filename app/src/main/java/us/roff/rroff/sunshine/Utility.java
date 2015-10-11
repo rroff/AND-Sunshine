@@ -41,6 +41,14 @@ public class Utility {
                 Boolean.parseBoolean(context.getString(R.string.pref_notification_default)));
     }
 
+    /**
+     * Retrieves API Key for OpenWeatherMap, which is stored as a build configuration item.
+     * @return OpenWeatherMap API Key
+     */
+    public static String getApiKey() {
+        return BuildConfig.OPEN_WEATHER_MAP_API_KEY;
+    }
+
     public static String getPreferredLocation(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_location_key),

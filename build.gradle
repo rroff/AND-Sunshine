@@ -17,3 +17,7 @@ allprojects {
         jcenter()
     }
 }
+
+task printPrivateProperties {
+    println "OpenWeatherMapApiKey: " + OpenWeatherMapApiKey
+}
